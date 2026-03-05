@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>静脉PDT治疗气管RRP — 手术演示视频</title>
+
+  <!-- Plyr.js -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3/dist/plyr.css">
+
+  <!-- Fonts: Noto Serif SC + Noto Sans SC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Author: Yufei | Created: 2026-03-05 -->
+  <style>
+    :root {
+      --bg-primary: #0b0f14;
+      --bg-card: #161d27;
+      --accent: #3edbc6;
+      --accent-dim: rgba(62, 219, 198, 0.12);
+      --text-primary: #e8ecf1;
+      --text-secondary: #8a9bb0;
+      --text-muted: #536378;
+      --border: rgba(138, 155, 176, 0.1);
+      --glow: rgba(62, 219, 198, 0.06);
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Noto Sans SC', system-ui, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .ambient-glow {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .site-header {
+      position: relative;
+      z-index: 1;
+      padding: 3.5rem 2rem 1.5rem;
+      text-align: center;
+      opacity: 0;
+      animation: fadeSlideIn 1s ease forwards;
+    }
+
+    .site-header__label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      background: var(--accent-dim);
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      border: 1px solid rgba(62, 219, 198, 0.15);
+      margin-bottom: 1.5rem;
+    }
+
+    .site-header__label::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .site-header__title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700;
+      line-height: 1.4;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+    }
+
+    .site-header__author {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    .main-content {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem 1.5rem 3rem;
+      opacity: 0;
+      animation: fadeSlideIn 1s ease 0.3s forwards;
+    }
+
+    .video-wrapper {
+      width: 100%;
+      max-width: 960px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      box-shadow:
+        0 4px 24px rgba(0, 0, 0, 0.3),
+        0 0 80px var(--glow);
+    }
+
+    .video-wrapper video {
+      width: 100%;
+      display: block;
+    }
+
+    .plyr {
+      --plyr-color-main: var(--accent);
+      --plyr-video-background: var(--bg-card);
+      --plyr-menu-background: var(--bg-card);
+      --plyr-menu-color: var(--text-primary);
+    }
+
+    .plyr__control--overlaid {
+      background: rgba(62, 219, 198, 0.9) !important;
+    }
+
+    .plyr__control--overlaid:hover {
+      background: var(--accent) !important;
+    }
+
+    .site-footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      opacity: 0;
+      animation: fadeSlideIn 0.8s ease 0.6s forwards;
+    }
+
+    .site-footer__text {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      letter-spacing: 0.03em;
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    @media (max-width: 640px) {
+      .site-header {
+        padding: 2.5rem 1.25rem 1rem;
+      }
+
+      .main-content {
+        padding: 1rem 1rem 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="ambient-glow"></div>
+
+  <header class="site-header">
+    <div class="site-header__label">手术演示视频</div>
+    <h1 class="site-header__title">静脉光动力治疗气管复发性<br>呼吸道乳头状瘤</h1>
+    <p class="site-header__author">
+      潘宇飞 · 南京医科大学附属明基医院耳鼻咽喉头颈外科
+    </p>
+  </header>
+
+  <main class="main-content">
+    <div class="video-wrapper">
+      <video id="player" playsinline controls>
+        <source src="videos/surgery.mp4" type="video/mp4">
+        您的浏览器不支持视频播放。
+      </video>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="site-footer__text">
+      仅供学习，禁止商业用途
+    </p>
+  </footer>
+
+  <!-- Plyr.js -->
+  <script src="https://cdn.jsdelivr.net/npm/plyr@3/dist/plyr.min.js"></script>
+  <script>
+    const player = new Plyr('#player', {
+      controls: [
+        'play-large', 'play', 'progress', 'current-time', 'duration',
+        'mute', 'volume', 'settings', 'pip', 'fullscreen'
+      ],
+      settings: ['speed'],
+      speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 2] },
+      tooltips: { controls: true, seek: true },
+      keyboard: { focused: true, global: true }
+    });
+  </script>
+
+</body>
+</html>
